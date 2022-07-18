@@ -125,6 +125,8 @@ import java.net.URL;
 
 import static androidx.core.app.NotificationCompat.PRIORITY_MIN;
 
+import com.tunanh.firewarning.R;
+
 public class BackgroundService extends IntentService {
     public BackgroundService() {
         super("BackgroundService");

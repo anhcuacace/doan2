@@ -11,6 +11,7 @@ import android.os.Handler;
 
 import com.github.anastr.speedviewlib.SpeedView;
 import com.google.android.material.tabs.TabLayout;
+import com.tunanh.firewarning.R;
 
 public class MainActivity extends AppCompatActivity {
 
