@@ -109,6 +109,7 @@ import androidx.core.app.NotificationCompat;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.example.doan2.fragment.FirebaseService;
 import com.tunanh.firewarning.R;
 
 public class BackgroundService extends IntentService {

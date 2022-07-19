@@ -1,4 +1,4 @@
-package com.example.doan2;
+package com.example.doan2.fragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;

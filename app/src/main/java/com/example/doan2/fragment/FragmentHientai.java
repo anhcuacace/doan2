@@ -1,4 +1,4 @@
-package com.example.doan2;
+package com.example.doan2.fragment;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
