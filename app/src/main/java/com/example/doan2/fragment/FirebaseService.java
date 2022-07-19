@@ -12,11 +12,11 @@ import okhttp3.Response;
 public class FirebaseService {
     OkHttpClient client;
 
-    FirebaseService() {
+    public FirebaseService() {
         client = new OkHttpClient();
     }
 
-    JSONObject getData() {
+    public JSONObject getData() {
         Request request = new Request.Builder()
                 .url("https://doanmonhoc1-5cbdc-default-rtdb.firebaseio.com/Sensor.json")
                 .build();

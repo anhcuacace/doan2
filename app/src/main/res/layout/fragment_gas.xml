@@ -7,20 +7,20 @@
     tools:context="com.example.doan2.fragment.GasFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/myTabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        app:tabIndicatorColor="#E91E63"
-        app:tabIndicatorHeight="3dp"
-        app:tabMode="fixed"
-        app:tabSelectedTextColor="#a845de"
-        app:tabTextColor="#000000" />
+<!--    <com.google.android.material.tabs.TabLayout-->
+<!--        android:id="@+id/myTabLayout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@color/white"-->
+<!--        app:tabIndicatorColor="#E91E63"-->
+<!--        app:tabIndicatorHeight="3dp"-->
+<!--        app:tabMode="fixed"-->
+<!--        app:tabSelectedTextColor="#a845de"-->
+<!--        app:tabTextColor="#000000" />-->
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/myViewPager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+<!--    <androidx.viewpager.widget.ViewPager-->
+<!--        android:id="@+id/myViewPager"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent" />-->
 
 </FrameLayout>
