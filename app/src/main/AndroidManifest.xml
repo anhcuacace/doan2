@@ -10,13 +10,13 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_launcher_foreground"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/ic_launcher_foreground"
         android:supportsRtl="true"
         android:theme="@style/Theme.FireWarning"
         tools:targetApi="31">
-        <activity android:name="com.example.test.MainActivity"
+        <activity android:name="com.example.doan2.activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,7 +29,7 @@
 <!--                        <action android:name="android.intent.action.BOOT_COMPLETED"/>-->
 <!--                    </intent-filter>-->
 <!--                </receiver>-->
-        <service android:name="com.example.test.BackgroundService">
+        <service android:name="com.example.doan2.BackgroundService">
 
         </service>
 
