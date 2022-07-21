@@ -108,11 +108,13 @@ import androidx.core.app.NotificationCompat;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.simple.parser.ParseException;
 
 import com.example.doan2.fragment.FirebaseService;
 import com.tunanh.firewarning.R;
 
-public class BackgroundService extends IntentService {
+public class
+BackgroundService extends IntentService {
     public BackgroundService() {
         super("BackgroundService");
     }
@@ -143,7 +145,7 @@ public class BackgroundService extends IntentService {
                         }
                     }
             }
-        } catch (InterruptedException e) {
+        } catch (InterruptedException | ParseException e) {
             e.printStackTrace();
         } finally {
             stopForeground(true);
@@ -159,7 +161,7 @@ public class BackgroundService extends IntentService {
         NotificationCompat.Builder b = new NotificationCompat.Builder(this);
 //        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         b.setDefaults(Notification.DEFAULT_SOUND)
-                .setChannelId("com.example.test")
+                .setChannelId("com.tunanh.firewarning")
                 .setWhen(System.currentTimeMillis());
         b.setContentTitle("Cảnh báo khí gas")
                 .setContentText(description)
@@ -175,7 +177,7 @@ public class BackgroundService extends IntentService {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void startMyOwnForeground() {
-        String NOTIFICATION_CHANNEL_ID = "com.example.test";
+        String NOTIFICATION_CHANNEL_ID = "com.tunanh.firewarning";
         String channelName = "My Background Service";
         NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_HIGH);
         chan.setLightColor(Color.BLUE);

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,10 +60,13 @@ SpeedView speedometer;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        field = getArguments().getString("key");
-
-        View view = inflater.inflate(R.layout.fragment_hientai,container,false);
-        speedometer = view.findViewById(R.id.speedView);
+        try {
+            field = firebaseService.getData().getString("temperature");
+        }catch (Exception e){
+            Log.d("ahihi",e.getMessage());
+        }
+        View view = inflater.inflate(R.layout.fragment_temperature,container,false);
+        speedometer = (SpeedView) view.findViewById(R.id.speedView);
         speedometer.setWithTremble(false);
         speedometer.getSections().get(0).setStartEndOffset(0, .2f);
         speedometer.getSections().get(1).setStartEndOffset(.2f, .5f);

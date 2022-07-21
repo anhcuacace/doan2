@@ -23,4 +23,19 @@
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="match_parent" />-->
 
+    <RelativeLayout
+        android:layout_marginTop="110dp"
+        android:background="@drawable/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.github.anastr.speedviewlib.SpeedView
+            android:layout_marginTop="90dp"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/speedView"
+            app:sv_unit="Anh Toàn"
+            android:layout_width="wrap_content"
+            app:sv_unitUnderSpeedText="true"
+            android:layout_height="wrap_content"
+            app:sv_tickNumber = "6"/>
+    </RelativeLayout>
 </FrameLayout>
