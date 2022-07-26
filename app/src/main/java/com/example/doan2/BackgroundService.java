@@ -212,14 +212,13 @@ public class BackgroundService extends JobService {
 //                .build();
 //        startForeground(101, notification);
 
-    private Data getdata() {
+    private void getdata() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference("kiemtra");
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Long gas = snapshot.getValue(Long.class);
                 try {
                      Data data = snapshot.getValue(Data.class);
                     Notification notification= new NotificationCompat.Builder(getApplicationContext(),MyApplication.CHANNEL_ID)
