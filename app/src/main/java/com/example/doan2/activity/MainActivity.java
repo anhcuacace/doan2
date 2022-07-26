@@ -10,13 +10,17 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+//import com.example.doan2.BackgroundService;
+//import com.example.doan2.fragment.FragmentHientai;
 import com.example.doan2.BackgroundService;
-import com.example.doan2.fragment.FragmentHientai;
 import com.example.doan2.MainViewpagerAdapter;
 import com.example.doan2.fragment.GasFragment;
 import com.example.doan2.fragment.temperatureFragment;
@@ -28,7 +32,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public static final int FRAGMENT_GAS=0;
     public static final int FRAGMENT_TEMPERATURE=1;
-//    public static final int FRAGMENT_GAS=0;
+    private static final int JOB_ID = 123;
+    //    public static final int FRAGMENT_GAS=0;
     public static int mCurrentFragment=FRAGMENT_GAS;
 //    private TabLayout tabLayout;
 //    private ViewPager viewPager;
@@ -37,9 +42,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent i=new Intent(this, BackgroundService.class);
-
-        startService(i);
+//        Intent i=new Intent(this, BackgroundService.class);
+//
+//        startService(i);
 //        Intent intent = new Intent(this, BackgroundService.class);
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 //            startForegroundService(intent);
@@ -75,6 +80,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //
 //        viewPager.setAdapter(mainViewPagerAdapter);
 //        tabLayout.setupWithViewPager(viewPager);
+        oncreateScheduleJob();
+    }
+
+    private void oncreateScheduleJob() {
+        ComponentName componentName= new ComponentName(this, BackgroundService.class);
+        JobInfo jobInfo= new JobInfo.Builder(JOB_ID,componentName)
+                .setPersisted(true)
+                .build();
+        JobScheduler scheduler= (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+        scheduler.schedule(jobInfo);
+
     }
 
 

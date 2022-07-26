@@ -1,198 +1,262 @@
 package com.example.doan2;
+
+import android.app.Notification;
+import android.app.job.JobParameters;
+import android.app.job.JobService;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
+
+import com.example.doan2.service.MyApplication;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+////import android.app.IntentService;
+////import android.app.Service;
+////import android.content.Context;
+////import android.content.Intent;
+////import android.os.Handler;
+////import android.os.IBinder;
+////import android.widget.Toast;
+////
+////import androidx.annotation.Nullable;
+////
+////import org.json.JSONException;
+////import org.json.JSONObject;
+////
+////import java.time.Duration;
+////import java.util.Timer;
+////import java.util.TimerTask;
+////
+////public class BackgroundService extends IntentService {
+////    public static final int notify = 5000;  //interval between two services(Here Service run every 5 seconds)
+////    private Handler mHandler = new Handler();   //run on another Thread to avoid crash
+////    private Timer mTimer = null;    //timer handling
+////    private FirebaseService firebaseService;
+////    private String[] keys = {"khigatram1", "khigatram2"};
+////    private Context appContext;
+////
+////    /**
+////     * Creates an IntentService.  Invoked by your subclass's constructor.
+////     *
+////     * @param name Used to name the worker thread, important only for debugging.
+////     */
+////    public BackgroundService(String name) {
+////        super(name);
+////    }
+////
+////
+////    @Override
+////    protected void onHandleIntent(@Nullable Intent intent) {
+////
+////    }
+////
+//////
+//////    @Override
+//////    public int onStartCommand(Intent intent, int flags, int startId) {
+//////        appContext = getBaseContext();
+//////        return super.onStartCommand(intent, flags, startId);
+//////    }
+//////
+////    @Override
+////    public void onCreate() {
+////        if (mTimer != null) // Cancel if already existed
+////            mTimer.cancel();
+////        else
+////            mTimer = new Timer();   //recreate new
+////        mTimer.scheduleAtFixedRate(new GetGasData(), 0, notify);   //Schedule task
+////        firebaseService = new FirebaseService();
+////    }
+//////
+//////    @Override
+//////    public void onDestroy() {
+//////        super.onDestroy();
+//////        mTimer.cancel();    //For Cancel Timer
+//////    }
+////
+////    class GetGasData extends TimerTask {
+////        @Override
+////        public void run() {
+////            // run on another thread
+////            mHandler.post(new Runnable() {
+////                @Override
+////                public void run() {
+////                    JSONObject data = firebaseService.getData();
+////                    System.out.println("run");
+////                    for (String key: keys) {
+////                        try {
+////                            if (data.getInt(key) > 50) {
+////                                baoDong();
+////                            }
+////                        } catch (JSONException e) {
+////                            e.printStackTrace();
+////                        }
+////                    }
+////                }
+////
+////                private void baoDong() {
+////                    Toast.makeText(appContext, "bao dong", Toast.LENGTH_LONG);
+////                }
+////            });
+////
+////        }
+////
+////    }
+////}
+//
+//
 //import android.app.IntentService;
-//import android.app.Service;
+//import android.app.Notification;
+//import android.app.NotificationChannel;
+//import android.app.NotificationManager;
 //import android.content.Context;
 //import android.content.Intent;
-//import android.os.Handler;
-//import android.os.IBinder;
-//import android.widget.Toast;
+//import android.graphics.Color;
+//import android.os.Build;
 //
-//import androidx.annotation.Nullable;
+//
+//import androidx.annotation.RequiresApi;
+//import androidx.core.app.NotificationCompat;
 //
 //import org.json.JSONException;
 //import org.json.JSONObject;
+//import org.json.simple.parser.ParseException;
 //
-//import java.time.Duration;
-//import java.util.Timer;
-//import java.util.TimerTask;
+//import com.example.doan2.fragment.FirebaseService;
+//import com.tunanh.firewarning.R;
 //
-//public class BackgroundService extends IntentService {
-//    public static final int notify = 5000;  //interval between two services(Here Service run every 5 seconds)
-//    private Handler mHandler = new Handler();   //run on another Thread to avoid crash
-//    private Timer mTimer = null;    //timer handling
+//public class
+public class BackgroundService extends JobService {
+
+    //    public BackgroundService() {
+//        super("BackgroundService");
+//    }
+//    public static final int delay = 5000;  //interval between two services(Here Service run every 5 seconds)
 //    private FirebaseService firebaseService;
 //    private String[] keys = {"khigatram1", "khigatram2"};
-//    private Context appContext;
-//
-//    /**
-//     * Creates an IntentService.  Invoked by your subclass's constructor.
-//     *
-//     * @param name Used to name the worker thread, important only for debugging.
-//     */
-//    public BackgroundService(String name) {
-//        super(name);
-//    }
-//
+//    int id = 0;
 //
 //    @Override
-//    protected void onHandleIntent(@Nullable Intent intent) {
-//
-//    }
-//
-////
-////    @Override
-////    public int onStartCommand(Intent intent, int flags, int startId) {
-////        appContext = getBaseContext();
-////        return super.onStartCommand(intent, flags, startId);
-////    }
-////
-//    @Override
-//    public void onCreate() {
-//        if (mTimer != null) // Cancel if already existed
-//            mTimer.cancel();
-//        else
-//            mTimer = new Timer();   //recreate new
-//        mTimer.scheduleAtFixedRate(new GetGasData(), 0, notify);   //Schedule task
+//    public void onHandleIntent(Intent i) {
 //        firebaseService = new FirebaseService();
-//    }
-////
-////    @Override
-////    public void onDestroy() {
-////        super.onDestroy();
-////        mTimer.cancel();    //For Cancel Timer
-////    }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+//            startMyOwnForeground();
+//        else
+//            startForeground(1, new Notification());
 //
-//    class GetGasData extends TimerTask {
-//        @Override
-//        public void run() {
-//            // run on another thread
-//            mHandler.post(new Runnable() {
-//                @Override
-//                public void run() {
-//                    JSONObject data = firebaseService.getData();
-//                    System.out.println("run");
+//        try {
+//            while (true) {
+//                Thread.sleep(delay);
+//                JSONObject data = firebaseService.getData();
 //                    for (String key: keys) {
 //                        try {
 //                            if (data.getInt(key) > 50) {
-//                                baoDong();
+//                                raiseNotification(key);
 //                            }
 //                        } catch (JSONException e) {
 //                            e.printStackTrace();
 //                        }
 //                    }
-//                }
-//
-//                private void baoDong() {
-//                    Toast.makeText(appContext, "bao dong", Toast.LENGTH_LONG);
-//                }
-//            });
-//
+//            }
+//        } catch (InterruptedException | ParseException e) {
+//            e.printStackTrace();
+//        } finally {
+//            stopForeground(true);
 //        }
-//
 //    }
-//}
+//
+//    private void raiseNotification(String key) {
+//        String description;
+//        if (key.equals(keys[0]))
+//            description = "Khí gas trạm 1 báo động";
+//        else
+//            description = "Khí gas trạm 2 báo động";
+//        NotificationCompat.Builder b = new NotificationCompat.Builder(this);
+////        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+//        b.setDefaults(Notification.DEFAULT_SOUND)
+//                .setChannelId("com.tunanh.firewarning")
+//                .setWhen(System.currentTimeMillis());
+//        b.setContentTitle("Cảnh báo khí gas")
+//                .setContentText(description)
+//                .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
+////                .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
+//                .setSmallIcon(android.R.drawable.stat_notify_error);
+//
+//        NotificationManager mgr =
+//                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+//
+//        mgr.notify(++id, b.build());
+//    }
+//
+//    @RequiresApi(api = Build.VERSION_CODES.O)
+//    private void startMyOwnForeground() {
+//        String NOTIFICATION_CHANNEL_ID = "com.tunanh.firewarning";
+//        String channelName = "My Background Service";
+//        NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_HIGH);
+//        chan.setLightColor(Color.BLUE);
+//        chan.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
+//        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//        assert manager != null;
+//        manager.createNotificationChannel(chan);
+//
+//        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
+//        Notification notification = notificationBuilder.setOngoing(true)
+//                .setSmallIcon(R.drawable.ic_launcher_background)
+//                .setContentTitle("App is running in background")
+//                .setPriority(NotificationManager.IMPORTANCE_MIN)
+//                .setCategory(Notification.CATEGORY_SERVICE)
+//                .build();
+//        startForeground(101, notification);
+
+    private Data getdata() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference reference = database.getReference("kiemtra");
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Long gas = snapshot.getValue(Long.class);
+                try {
+                     Data data = snapshot.getValue(Data.class);
+                    Notification notification= new NotificationCompat.Builder(getApplicationContext(),MyApplication.CHANNEL_ID)
+                            .setContentTitle(Integer.toString(data.getGas()))
 
 
-import android.app.IntentService;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
+//                speedometer.speedTo(data,time);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("ahihi", error.getMessage());
+            }
+        });
 
-import androidx.annotation.RequiresApi;
-import androidx.core.app.NotificationCompat;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.simple.parser.ParseException;
-
-import com.example.doan2.fragment.FirebaseService;
-import com.tunanh.firewarning.R;
-
-public class
-BackgroundService extends IntentService {
-    public BackgroundService() {
-        super("BackgroundService");
     }
-    public static final int delay = 5000;  //interval between two services(Here Service run every 5 seconds)
-    private FirebaseService firebaseService;
-    private String[] keys = {"khigatram1", "khigatram2"};
-    int id = 0;
+private boolean jobCancelled;
+    public static final String TAG= BackgroundService.class.getName();
+    @Override
+    public boolean onStartJob(JobParameters params) {
+        doBackgroundWork(params);
+        return false;
+    }
+
+    private void doBackgroundWork(JobParameters params) {
+        getdata();
+
+
+    }
 
     @Override
-    public void onHandleIntent(Intent i) {
-        firebaseService = new FirebaseService();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            startMyOwnForeground();
-        else
-            startForeground(1, new Notification());
-
-        try {
-            while (true) {
-                Thread.sleep(delay);
-                JSONObject data = firebaseService.getData();
-                    for (String key: keys) {
-                        try {
-                            if (data.getInt(key) > 50) {
-                                raiseNotification(key);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-            }
-        } catch (InterruptedException | ParseException e) {
-            e.printStackTrace();
-        } finally {
-            stopForeground(true);
-        }
-    }
-
-    private void raiseNotification(String key) {
-        String description;
-        if (key.equals(keys[0]))
-            description = "Khí gas trạm 1 báo động";
-        else
-            description = "Khí gas trạm 2 báo động";
-        NotificationCompat.Builder b = new NotificationCompat.Builder(this);
-//        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        b.setDefaults(Notification.DEFAULT_SOUND)
-                .setChannelId("com.tunanh.firewarning")
-                .setWhen(System.currentTimeMillis());
-        b.setContentTitle("Cảnh báo khí gas")
-                .setContentText(description)
-                .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
-//                .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
-                .setSmallIcon(android.R.drawable.stat_notify_error);
-
-        NotificationManager mgr =
-                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-        mgr.notify(++id, b.build());
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void startMyOwnForeground() {
-        String NOTIFICATION_CHANNEL_ID = "com.tunanh.firewarning";
-        String channelName = "My Background Service";
-        NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_HIGH);
-        chan.setLightColor(Color.BLUE);
-        chan.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
-        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        assert manager != null;
-        manager.createNotificationChannel(chan);
-
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
-        Notification notification = notificationBuilder.setOngoing(true)
-                .setSmallIcon(R.drawable.ic_launcher_background)
-                .setContentTitle("App is running in background")
-                .setPriority(NotificationManager.IMPORTANCE_MIN)
-                .setCategory(Notification.CATEGORY_SERVICE)
-                .build();
-        startForeground(101, notification);
+    public boolean onStopJob(JobParameters params) {
+        Log.e(TAG,"Job stopped");
+        return true;
     }
 }
+//}
