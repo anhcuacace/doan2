@@ -1,14 +1,12 @@
 package com.example.doan2.fragment;
 
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 //import androidx.room.parser.Section;
-import androidx.viewpager.widget.ViewPager;
 
 import android.os.Handler;
 import android.util.Log;
@@ -16,19 +14,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.doan2.MainViewpagerAdapter;
 import com.github.anastr.speedviewlib.SpeedView;
-import com.github.anastr.speedviewlib.components.Section;
-import com.github.anastr.speedviewlib.components.Style;
-import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.tunanh.firewarning.R;
-
-import org.json.JSONObject;
 
 
 public class temperatureFragment extends Fragment {
@@ -88,6 +80,17 @@ SpeedView speedometer;
         speedometer.getSections().get(0).setColor(R.color.purple_700);
         speedometer.getSections().get(1).setColor(Color.GREEN);
         speedometer.getSections().get(2).setColor(Color.RED);
+        speedometer.setOnSpeedChangeListener((gauge, aBoolean, aBoolean2) -> {
+            if(speedometer.getSpeed()<5){
+                speedometer.setUnit(getString(R.string.hazardous));
+            }else if (speedometer.getSpeed()>50){
+                speedometer.setUnit(getString(R.string.hazardous));
+            }else {
+                speedometer.setUnit(getString(R.string.safe));
+            }
+            return null;
+        });
+
 //        speedometer.getSections().get(4).setStartEndOffset(.5f, 1f);
 //        speedometer.getSections().get(0).setStartEndOffset(0, .15f);
 //        speedometer.clearSections();
@@ -96,7 +99,7 @@ SpeedView speedometer;
 //                , new Section(.4f, .75f, Color.BLUE)
 //                , new Section(.75f, .9f, Color.RED));
         speedometer.setTickNumber(20);
-        speedometer.setUnit("C");
+
         getdata();
 
     }

@@ -18,6 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FireWarning"
         tools:targetApi="31">
+        <service android:name="com.example.doan2.service.MyService"/>
         <service
             android:name="com.example.doan2.service.MyFirebaseMessagingService"
             android:exported="false">
@@ -39,10 +40,8 @@
 <!--                        <action android:name="android.intent.action.BOOT_COMPLETED"/>-->
 <!--                    </intent-filter>-->
 <!--                </receiver>-->
-        <service android:name="com.example.doan2.BackgroundService"
-            android:permission="android.permission.BIND_JOB_SERVICE"/>
 
-<!--        </service>-->
+        <!--        </service>-->
 
     </application>
 

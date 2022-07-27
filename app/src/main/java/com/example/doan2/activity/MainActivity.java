@@ -8,7 +8,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
 
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
@@ -18,14 +17,12 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-//import com.example.doan2.BackgroundService;
+//import com.example.doan2.service.BackgroundService;
 //import com.example.doan2.fragment.FragmentHientai;
-import com.example.doan2.BackgroundService;
-import com.example.doan2.MainViewpagerAdapter;
 import com.example.doan2.fragment.GasFragment;
 import com.example.doan2.fragment.temperatureFragment;
+import com.example.doan2.service.MyService;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.tabs.TabLayout;
 import com.tunanh.firewarning.R;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -80,18 +77,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //
 //        viewPager.setAdapter(mainViewPagerAdapter);
 //        tabLayout.setupWithViewPager(viewPager);
-        oncreateScheduleJob();
+//        oncreateScheduleJob();
     }
 
-    private void oncreateScheduleJob() {
-        ComponentName componentName= new ComponentName(this, BackgroundService.class);
-        JobInfo jobInfo= new JobInfo.Builder(JOB_ID,componentName)
-                .setPersisted(true)
-                .build();
-        JobScheduler scheduler= (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
-        scheduler.schedule(jobInfo);
-
+    @Override
+    protected void onResume() {
+            super.onResume();
+            Intent intent = new Intent(this,MyService.class);
+        startService(intent);
     }
+    //    private void oncreateScheduleJob() {
+//        ComponentName componentName= new ComponentName(this, BackgroundService.class);
+//        JobInfo jobInfo= new JobInfo.Builder(JOB_ID,componentName)
+//                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_NONE)
+//                .setPersisted(true)
+//                .setPeriodic(15*60*1000)
+//                .build();
+//        JobScheduler scheduler= (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+//        scheduler.schedule(jobInfo);
+//
+//    }
 
 
     @Override
@@ -134,6 +139,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FragmentTransaction transaction= getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.content_frame,fragment);
         transaction.commit();
-
     }
 }

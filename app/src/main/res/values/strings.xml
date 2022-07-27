@@ -9,5 +9,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="toxic_gas">Toxic gas index</string>
-
+    <string name="safe">safe</string>
+    <string name="warning">warning</string>
+    <string name="hazardous">hazardous</string>
 </resources>

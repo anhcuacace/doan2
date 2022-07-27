@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.anastr.speedviewlib.SpeedView;
+import com.google.android.material.slider.RangeSlider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -117,6 +118,18 @@ public class GasFragment extends Fragment {
         speedometer.getSections().get(0).setStartEndOffset(0, .2f);
         speedometer.getSections().get(1).setStartEndOffset(.2f, .5f);
         speedometer.getSections().get(2).setStartEndOffset(.5f, 1f);
+        speedometer.setOnSpeedChangeListener((gauge, aBoolean, aBoolean2) ->
+                {
+                    if(speedometer.getSpeed()<20){
+                        speedometer.setUnit(getString(R.string.safe));
+                    }else if (speedometer.getSpeed()>50){
+                        speedometer.setUnit(getString(R.string.hazardous));
+                    }else {
+                        speedometer.setUnit(getString(R.string.warning));
+                    }
+                    return null;
+                });
+
 //        speedometer.setUnit("%");
         getdata();
 
