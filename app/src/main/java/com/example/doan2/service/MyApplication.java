@@ -7,7 +7,8 @@ import android.os.Build;
 
  public class MyApplication extends Application {
 
-    public static final String CHANNEL_ID="push_notification_id";
+    public static final String CHANNEL_ID1="push_notification_id1";
+     public static final String CHANNEL_ID2="push_notification_id2";
     @Override
     public void onCreate() {
             super.onCreate();
@@ -16,9 +17,11 @@ import android.os.Build;
 
     private void createChanNelNotification() {
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,"hien thi", NotificationManager.IMPORTANCE_LOW);
+            NotificationChannel channel1 = new NotificationChannel(CHANNEL_ID1,"cảnh báo", NotificationManager.IMPORTANCE_HIGH);
+            NotificationChannel channel2 = new NotificationChannel(CHANNEL_ID2,"hien thi", NotificationManager.IMPORTANCE_LOW);
             NotificationManager manager= getSystemService(NotificationManager.class);
-            manager.createNotificationChannel(channel);
+            manager.createNotificationChannel(channel1);
+            manager.createNotificationChannel(channel2);
         }
     }
 }

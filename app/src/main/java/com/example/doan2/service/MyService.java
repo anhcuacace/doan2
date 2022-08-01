@@ -1,5 +1,8 @@
 package com.example.doan2.service;
 
+import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
+
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -12,7 +15,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
+
 
 import com.example.doan2.Data;
 import com.example.doan2.activity.MainActivity;
@@ -39,7 +42,7 @@ public class MyService extends Service {
 
     private void sendNotification() {
         Intent intent= new Intent(this, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+//        PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent, FLAG_UPDATE_CURRENT);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference("kiemtra");
 
@@ -50,13 +53,13 @@ public class MyService extends Service {
                     Bitmap bitmap= BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
                     Data data = snapshot.getValue(Data.class);
                     assert data != null;
-                    Notification notification= new NotificationCompat.Builder(getApplicationContext(),MyApplication.CHANNEL_ID)
+                    Notification notification= new NotificationCompat.Builder(getApplicationContext(),MyApplication.CHANNEL_ID2)
                             .setContentTitle("gas: "+ data.getGas()+"%")
                             .setContentText("temperature: "+ data.getTemperature()+"°C")
                             .setSmallIcon(R.mipmap.ic_launcher)
                             .setLargeIcon(bitmap)
                             .setPriority(NotificationCompat.PRIORITY_LOW)
-                            .setContentIntent(pendingIntent)
+//                            .setContentIntent(pendingIntent)
                             .setAutoCancel(false)
                             .build();
                     notification.flags=notification.FLAG_NO_CLEAR;
