@@ -37,7 +37,7 @@ public class MyService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         sendNotification();
-        return START_NOT_STICKY;
+        return START_STICKY;
     }
 
     private void sendNotification() {
